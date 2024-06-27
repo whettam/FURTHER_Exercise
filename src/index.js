@@ -5,6 +5,7 @@ import './index.css';
 import App from './App';
 import GoogleScripts from './components/GoogleScripts';
 
+// Render the application inside the root element in strict mode
 ReactDOM.render(
   <React.StrictMode>
     <GoogleScripts />

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 const IntegrationForm = () => {
+  // Initialize state for form data
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -8,6 +9,7 @@ const IntegrationForm = () => {
     phone: ''
   });
 
+  // Handle changes in form input fields
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -16,6 +18,7 @@ const IntegrationForm = () => {
     });
   };
 
+  // Sanitize the form data before submission
   const sanitizeFormData = () => {
     // Trim whitespace and remove spaces from phone number
     let sanitizedFormData = {
@@ -57,6 +60,7 @@ const IntegrationForm = () => {
     });
   };
 
+  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
 
