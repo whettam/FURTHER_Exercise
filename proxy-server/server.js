@@ -13,9 +13,6 @@ app.use(bodyParser.json()); // Parse incoming JSON requests
 
 const zapUrl = process.env.REACT_APP_ZAP_WEBHOOK;
 // Zapier webhook URL for forwarding data
-// 
-// Removed for security, would normally be an environment variable (secret)
-// 
 const webhookUrl = zapUrl; 
 
 // Endpoint to handle POST requests from the client
