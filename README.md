@@ -1,70 +1,17 @@
-# Getting Started with Create React App
+# Integration Exercise: Form Submission with Google Analytics and Zapier
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project demonstrates how to integrate a form submission process using React, Node.js, Google Analytics (GA), and Zapier. The goal is to capture user input from a web form, track it with Google Analytics for analytics purposes, and forward the data to Zapier for further automated actions.
 
-## Available Scripts
+## Overview
 
-In the project directory, you can run:
+The project consists of two main components:
+- **Frontend (React)**: Provides a user-friendly form interface where users can input their information (first name, last name, email, phone number).
+- **Backend (Node.js)**: Acts as a proxy server that receives form submissions from the frontend, sanitizes the data, sends an event to Google Tag Manager for tracking via Google Analytics, and forwards the sanitized data to Zapier for automated workflows.
 
-### `npm start`
+## How It Works
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+1. **Frontend**: Built with React, the frontend includes a form that collects user information. Input fields include first name, last name, email, and phone number. Input data is sanitized to remove unnecessary whitespace and HTML characters before submission.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+2. **Google Analytics Integration**: The sanitized form data triggers an event in Google Tag Manager, which then sends data to Google Analytics for tracking user interactions.
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+3. **Zapier Integration**: After sanitization, the form data is forwarded securely to Zapier via a Node.js proxy server. Zapier processes this data according to predefined workflows, such as sending email notifications or updating a database.
