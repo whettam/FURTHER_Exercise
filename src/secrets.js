@@ -1,2 +1,0 @@
-const GTAG = "GTM-TF8VQ82V";
-const GOOGLEID = "G-JZEEJD3704";

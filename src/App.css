@@ -109,7 +109,7 @@ body {
 
 .image-section {
   width: 50%;
-  background: url('../assets/alhambra_visitor.jpg') no-repeat center center;
+  background: url('../assets/welcoming.jpg') no-repeat center center;
   background-size: cover;
 }
 
@@ -149,7 +149,7 @@ body {
 .submit-button {
   width: 100%;
   padding: 15px;
-  background: #eea95b; 
+  background: #fb8b24; 
   color: white;
   border: none;
   border-radius: 50px; 

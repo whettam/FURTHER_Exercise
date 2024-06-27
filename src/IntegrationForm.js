@@ -16,42 +16,53 @@ const IntegrationForm = () => {
     });
   };
 
-  const validateForm = () => {
-    // Basic email validation using regex
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const isValidEmail = emailRegex.test(formData.email);
+  const sanitizeFormData = () => {
+    // Trim whitespace and remove spaces from phone number
+    let sanitizedFormData = {
+      firstName: formData.firstName.trim(),
+      lastName: formData.lastName.trim(),
+      email: formData.email.trim(),
+      phone: formData.phone.replace(/\s+/g, '') // Remove spaces from phone number
+    };
 
-    // Basic phone number validation using regex 
-    const phoneRegex = /^\d{10}$/;
-    const isValidPhone = phoneRegex.test(formData.phone);
+    // HTML character escaping
+    sanitizedFormData = {
+      ...sanitizedFormData,
+      firstName: escapeHtml(sanitizedFormData.firstName),
+      lastName: escapeHtml(sanitizedFormData.lastName),
+      email: escapeHtml(sanitizedFormData.email),
+      phone: escapeHtml(sanitizedFormData.phone)
+    };
 
-    let validationMessage = '';
+    return sanitizedFormData;
+  };
 
-    if (!isValidEmail) {
-      validationMessage += 'Invalid Email Address\n';
-    }
-
-    if (!isValidPhone) {
-      validationMessage += 'Invalid Phone Number\n';
-    }
-
-    if (validationMessage) {
-      const confirmation = window.confirm(`${validationMessage}\nDo you want to submit anyway?`);
-
-      if (!confirmation) {
-        return false; // User chose not to submit
+  // Function to escape HTML characters
+  const escapeHtml = (unsafe) => {
+    return unsafe.replace(/[&<"']/g, (m) => {
+      switch (m) {
+        case '&':
+          return '&amp;';
+        case '<':
+          return '&lt;';
+        case '>':
+          return '&gt;';
+        case '"':
+          return '&quot;';
+        case "'":
+          return '&#039;';
+        default:
+          return m;
       }
-    }
-
-    return true; // Proceed with submission
+    });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!validateForm()) {
-      return; // Stop submission if form is not valid and user chose not to submit anyway
-    }
+    // Sanitize the form data before submission
+    const sanitizedData = sanitizeFormData();
+    console.log('Sanitized Form Data:', sanitizedData);
 
     // proxy URL to be run with node
     const proxyUrl = 'http://localhost:3001/submit';
@@ -60,16 +71,11 @@ const IntegrationForm = () => {
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
       event: 'formSubmission',
-      formData: {
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        email: formData.email,
-        phone: formData.phone
-      }
+      formData: sanitizedData
     });
 
     // Log the form data being sent
-    console.log('Form Data:', formData);
+    console.log('Form Data:', sanitizedData);
 
     // Send data to proxy server
     fetch(proxyUrl, {
@@ -77,7 +83,7 @@ const IntegrationForm = () => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(formData)
+      body: JSON.stringify(sanitizedData)
     })
       .then(response => response.json())
       .then(data => {
@@ -142,7 +148,6 @@ const IntegrationForm = () => {
         &copy; 2024 ATTUNE
       </footer>
     </div>
-
   );
 };
 
