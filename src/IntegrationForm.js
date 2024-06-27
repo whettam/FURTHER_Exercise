@@ -21,7 +21,7 @@ const IntegrationForm = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const isValidEmail = emailRegex.test(formData.email);
 
-    // Basic phone number validation using regex (10 digits)
+    // Basic phone number validation using regex 
     const phoneRegex = /^\d{10}$/;
     const isValidPhone = phoneRegex.test(formData.phone);
 
