@@ -10,8 +10,13 @@ const port = 3001; // Port the server is listening on
 app.use(cors()); // Enable CORS
 app.use(bodyParser.json()); // Parse incoming JSON requests
 
+
+const zapUrl = process.env.REACT_APP_ZAP_WEBHOOK;
 // Zapier webhook URL for forwarding data
-const webhookUrl = 'https://hooks.zapier.com/hooks/catch/19247203/2b1l071/';
+// 
+// Removed for security, would normally be an environment variable (secret)
+// 
+const webhookUrl = zapUrl; 
 
 // Endpoint to handle POST requests from the client
 app.post('/submit', async (req, res) => {

@@ -18,46 +18,24 @@ const IntegrationForm = () => {
     });
   };
 
-  // Sanitize the form data before submission
-  const sanitizeFormData = () => {
-    // Trim whitespace and remove spaces from phone number
-    let sanitizedFormData = {
-      firstName: formData.firstName.trim(),
-      lastName: formData.lastName.trim(),
-      email: formData.email.trim(),
-      phone: formData.phone.replace(/\s+/g, '') // Remove spaces from phone number
-    };
-
-    // HTML character escaping
-    sanitizedFormData = {
-      ...sanitizedFormData,
-      firstName: escapeHtml(sanitizedFormData.firstName),
-      lastName: escapeHtml(sanitizedFormData.lastName),
-      email: escapeHtml(sanitizedFormData.email),
-      phone: escapeHtml(sanitizedFormData.phone)
-    };
-
-    return sanitizedFormData;
+  // Function to remove HTML tags
+  const removeHtmlTags = (unsafe) => {
+    console.log("Original value:", unsafe); 
+    const sanitizedValue = unsafe.replace(/<\/?[^>]+(>|$)/g, "");
+    console.log("Sanitized value:", sanitizedValue);
+    return sanitizedValue;
   };
 
-  // Function to escape HTML characters
-  const escapeHtml = (unsafe) => {
-    return unsafe.replace(/[&<"']/g, (m) => {
-      switch (m) {
-        case '&':
-          return '&amp;';
-        case '<':
-          return '&lt;';
-        case '>':
-          return '&gt;';
-        case '"':
-          return '&quot;';
-        case "'":
-          return '&#039;';
-        default:
-          return m;
-      }
-    });
+  // Sanitize the form data before submission
+  const sanitizeFormData = () => {
+    const sanitizedFormData = {
+      firstName: removeHtmlTags(formData.firstName.trim()),
+      lastName: removeHtmlTags(formData.lastName.trim()),
+      email: removeHtmlTags(formData.email.trim()),
+      phone: removeHtmlTags(formData.phone.replace(/\s+/g, '')) // Remove spaces from phone number
+    };
+    console.log('Sanitized Form Data:', sanitizedFormData); // Debug: Log the sanitized form data
+    return sanitizedFormData;
   };
 
   // Handle form submission
@@ -66,7 +44,7 @@ const IntegrationForm = () => {
 
     // Sanitize the form data before submission
     const sanitizedData = sanitizeFormData();
-    console.log('Sanitized Form Data:', sanitizedData);
+    console.log('Sanitized Data on Submit:', sanitizedData); // Debug: Log sanitized data on submit
 
     // proxy URL to be run with node
     const proxyUrl = 'http://localhost:3001/submit';
@@ -78,9 +56,6 @@ const IntegrationForm = () => {
       formData: sanitizedData
     });
 
-    // Log the form data being sent
-    console.log('Form Data:', sanitizedData);
-
     // Send data to proxy server
     fetch(proxyUrl, {
       method: 'POST',
@@ -91,12 +66,12 @@ const IntegrationForm = () => {
     })
       .then(response => response.json())
       .then(data => {
-        console.log('Response from proxy server:', data);
         if (data.error) {
           alert('Form submission failed! Please try again later.');
-          console.log('Submission Error:', data.error);
+          console.error('Submission Error:', data.error);
         } else {
           alert('Form submitted successfully!');
+          console.log('Response from proxy server:', data);
         }
       })
       .catch((error) => {
